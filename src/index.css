@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light mode tokens */
+    --color-primary: 248 250 252;
+    --color-secondary: 226 232 240;
+    --color-text-main: 15 23 42;
+    --color-accent: 14 165 233;
+    --color-on-accent: 2 6 23;
+  }
+
+  .theme-light {
+    --color-primary: 248 250 252;
+    --color-secondary: 226 232 240;
+    --color-text-main: 15 23 42;
+    --color-accent: 14 165 233;
+    --color-on-accent: 2 6 23;
+  }
+
+  .theme-dark-blue {
+    /* Existing dark-blue palette */
+    --color-primary: 15 23 42;
+    --color-secondary: 30 41 59;
+    --color-text-main: 226 232 240;
+    --color-accent: 56 189 248;
+    --color-on-accent: 2 6 23;
+  }
+
+  .theme-black {
+    /* New black palette */
+    --color-primary: 3 7 18;
+    --color-secondary: 15 23 42;
+    --color-text-main: 241 245 249;
+    --color-accent: 6 182 212;
+    --color-on-accent: 2 6 23;
+  }
+
+  /* Keep Tailwind dark: variants active for both dark themes. */
+  .dark {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-primary text-main antialiased transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
+  .project-rail {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .project-rail::-webkit-scrollbar {
+    display: none;
+  }
+}
