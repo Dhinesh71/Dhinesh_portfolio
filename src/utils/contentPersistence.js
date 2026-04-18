@@ -82,7 +82,7 @@ export const fetchRemoteSiteContent = async (signal) => {
 
     const payload = await parseApiResponse(response);
 
-    if (response.status === 404 || response.status === 503) {
+    if ([401, 403, 404, 503].includes(response.status)) {
         return {
             available: false,
             content: null,

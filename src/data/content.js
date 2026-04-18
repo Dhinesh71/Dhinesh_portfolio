@@ -169,7 +169,7 @@ export const defaultSiteContent = {
             "I am a passionate software engineer with a strong foundation in building scalable web applications. My journey involves exploring various technologies and frameworks to create intuitive and dynamic user experiences.",
             "When I'm not coding, you can find me exploring new tech trends, contributing to open source, or enjoying a good cup of coffee. I believe in writing clean, maintainable code and dealing with complex problems.",
         ],
-        profileImage: "/profile-image.png",
+        profileImage: "/profileimage.jpeg",
         profileAlt: "Profile",
     },
     skills: {

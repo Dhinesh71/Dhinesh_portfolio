@@ -54,6 +54,10 @@ const getStoredContent = () => {
 
 const normalizeContentShape = (incomingContent) => {
     const mergedContent = mergeWithTemplate(defaultSiteContent, incomingContent);
+    const profileImage =
+        mergedContent.about?.profileImage === "/profile-image.png"
+            ? defaultSiteContent.about.profileImage
+            : mergedContent.about?.profileImage;
     const timelineTemplateLink = defaultSiteContent.navigation.links.find((link) => link.to === "timeline");
 
     const cleanedNavigationLinks = (mergedContent.navigation?.links || [])
@@ -83,6 +87,10 @@ const normalizeContentShape = (incomingContent) => {
         navigation: {
             ...mergedContent.navigation,
             links: navigationLinks,
+        },
+        about: {
+            ...mergedContent.about,
+            profileImage,
         },
         hackathons: {
             ...mergedContent.hackathons,

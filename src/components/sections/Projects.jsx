@@ -20,13 +20,6 @@ const PROJECT_GRADIENTS = [
 const DEFAULT_PROJECT_DESCRIPTION =
     "A selection of full-stack products, frontend builds, and motion-rich interfaces designed with clean structure and strong usability.";
 
-const descriptionClampStyle = {
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: 4,
-    overflow: "hidden",
-};
-
 const ProjectCard = ({ project, index, labels, registerCard }) => {
     const [startColor, endColor] = PROJECT_GRADIENTS[index % PROJECT_GRADIENTS.length];
     const visibleTech = project.tech.slice(0, 8);
@@ -129,7 +122,12 @@ const Projects = () => {
     const { projects } = content;
 
     const registerCard = (index) => (node) => {
-        cardRefs.current[index] = node;
+        if (node) {
+            cardRefs.current[index] = node;
+            return;
+        }
+
+        delete cardRefs.current[index];
     };
 
     useEffect(() => {
@@ -235,8 +233,6 @@ const Projects = () => {
 
         return () => mm.revert();
     }, { scope: sectionRef, dependencies: [projects.items] });
-
-    cardRefs.current = [];
 
     return (
         <section

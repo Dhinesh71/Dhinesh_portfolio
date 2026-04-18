@@ -654,6 +654,11 @@ const AdminPanel = ({ isOpen, onClose }) => {
         return () => window.clearTimeout(timeoutId);
     }, [statusMessage]);
 
+    const handlePublishChanges = useCallback(async () => {
+        const result = await persistNow();
+        setStatusMessage(result.message);
+    }, [persistNow]);
+
     if (!isOpen) return null;
 
     const handleUnlock = (event) => {
@@ -679,11 +684,6 @@ const AdminPanel = ({ isOpen, onClose }) => {
         setImportValue("");
         setStatusMessage("");
     };
-
-    const handlePublishChanges = useCallback(async () => {
-        const result = await persistNow();
-        setStatusMessage(result.message);
-    }, [persistNow]);
 
     const handleCopyJson = async () => {
         try {

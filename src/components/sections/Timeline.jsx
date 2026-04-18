@@ -252,7 +252,7 @@ const setSlidesAnimation = (timeline, slides, screenContainer) => {
 const Timeline = () => {
     const { content } = useContent();
     const timelineContent = content.timeline;
-    const items = timelineContent?.items || [];
+    const items = useMemo(() => timelineContent?.items || [], [timelineContent?.items]);
     const svgContainerRef = useRef(null);
     const svgRef = useRef(null);
     const screenContainerRef = useRef(null);
