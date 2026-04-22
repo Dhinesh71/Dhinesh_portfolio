@@ -107,8 +107,10 @@ const Navbar = () => {
                                 smooth
                                 duration={500}
                                 onClick={handleBrandTap}
+                                className="flex items-center gap-2"
                             >
-                                {content.site.brandName}
+                                <img src="/favicon.svg" alt="Logo" className="w-8 h-8 md:w-10 md:h-10 animate-pulse" />
+                                <span>{content.site.brandName}</span>
                             </Link>
                         </div>
 
@@ -170,8 +172,15 @@ const Navbar = () => {
             >
                 <div className="flex justify-between items-center p-6 w-full">
                     <div className="text-2xl font-bold text-accent">
-                        <Link to={brandTarget} smooth duration={500} onClick={handleBrandTap}>
-                            {content.site.brandName}
+                        <Link 
+                            to={brandTarget} 
+                            smooth 
+                            duration={500} 
+                            onClick={handleBrandTap}
+                            className="flex items-center gap-2"
+                        >
+                            <img src="/favicon.svg" alt="Logo" className="w-8 h-8" />
+                            <span>{content.site.brandName}</span>
                         </Link>
                     </div>
                     <button

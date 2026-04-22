@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
-import { useForm, ValidationError } from "@formspree/react";
 import { useContent } from "../../context/ContentContext";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,9 +12,8 @@ const Contact = () => {
     const { content } = useContent();
     const { contact } = content;
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-    const [state, handleSubmit] = useForm(contact.formspreeId || "mjgandke");
+    const [status, setStatus] = useState({ submitting: false, succeeded: false, error: null });
     const formRef = useRef(null);
-    const formAction = contact.formAction || `https://formspree.io/f/${contact.formspreeId}`;
 
     useGSAP(() => {
         gsap.from(formRef.current, {
@@ -35,11 +33,35 @@ const Contact = () => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
-    useEffect(() => {
-        if (state.succeeded) {
-            setTimeout(() => setFormData({ name: "", email: "", message: "" }), 0);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus({ submitting: true, succeeded: false, error: null });
+
+        try {
+            const response = await fetch(contact.googleScriptUrl, {
+                method: "POST",
+                mode: "no-cors", // Required for Google Apps Script
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            // Since mode is 'no-cors', we can't read the response body, 
+            // but if the request finishes without erroring, it's usually successful.
+            setStatus({ submitting: false, succeeded: true, error: null });
+            setFormData({ name: "", email: "", message: "" });
+            
+            // Reset success message after 5 seconds
+            setTimeout(() => {
+                setStatus(prev => ({ ...prev, succeeded: false }));
+            }, 5000);
+
+        } catch (error) {
+            console.error("Submission error:", error);
+            setStatus({ submitting: false, succeeded: false, error: "Something went wrong. Please try again." });
         }
-    }, [state.succeeded]);
+    };
 
     return (
         <SectionWrapper id="contact" className="bg-secondary/10">
@@ -81,8 +103,6 @@ const Contact = () => {
                 <form
                     ref={formRef}
                     onSubmit={handleSubmit}
-                    action={formAction}
-                    method="POST"
                     className="bg-secondary/30 p-8 rounded-2xl border border-slate-700 shadow-xl"
                 >
                     <div className="space-y-6">
@@ -100,7 +120,6 @@ const Contact = () => {
                                 className="w-full bg-primary border border-slate-600 rounded-lg px-4 py-3 text-main focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                 placeholder={contact.placeholders.name}
                             />
-                            <ValidationError prefix={contact.labels.name} field="name" errors={state.errors} />
                         </div>
 
                         <div>
@@ -117,7 +136,6 @@ const Contact = () => {
                                 className="w-full bg-primary border border-slate-600 rounded-lg px-4 py-3 text-main focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                 placeholder={contact.placeholders.email}
                             />
-                            <ValidationError prefix={contact.labels.email} field="email" errors={state.errors} />
                         </div>
 
                         <div>
@@ -134,20 +152,23 @@ const Contact = () => {
                                 className="w-full bg-primary border border-slate-600 rounded-lg px-4 py-3 text-main focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors resize-none"
                                 placeholder={contact.placeholders.message}
                             />
-                            <ValidationError prefix={contact.labels.message} field="message" errors={state.errors} />
                         </div>
+
+                        {status.error && (
+                            <p className="text-red-500 text-sm font-medium">{status.error}</p>
+                        )}
 
                         <button
                             type="submit"
-                            disabled={state.submitting}
-                            className={`w-full py-3 rounded-lg font-bold text-primary transition-all duration-300 ${state.succeeded
+                            disabled={status.submitting}
+                            className={`w-full py-3 rounded-lg font-bold text-primary transition-all duration-300 ${status.succeeded
                                 ? "bg-green-500 hover:bg-green-600"
                                 : "bg-accent hover:bg-accent/90"
                             }`}
                         >
-                            {state.submitting
+                            {status.submitting
                                 ? contact.labels.submitLoading
-                                : state.succeeded
+                                : status.succeeded
                                     ? contact.labels.submitSuccess
                                     : contact.labels.submitIdle}
                         </button>
