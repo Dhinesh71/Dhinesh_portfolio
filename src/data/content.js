@@ -346,9 +346,9 @@ export const defaultSiteContent = {
         titleHighlight: "Touch",
         introTitle: "Let's Talk",
         introText: "I'm open to freelance opportunities and full-time roles. If you have a project in mind or just want to say hi, feel free to reach out!",
-        email: "patel.jivan.cg@gmail.com",
-        phone: "+91 7016749807",
-        address: "Kalol, Gujarat",
+        email: "dhineshjk17@gmail.com",
+        phone: "+91 9025873422",
+        address: "Tamilnadu, India",
         socialLinks: [
             { label: "GitHub", icon: "github", url: "https://github.com/Jivan-Patel" },
             { label: "LinkedIn", icon: "linkedin", url: "https://www.linkedin.com/in/patel-jivan/" },
