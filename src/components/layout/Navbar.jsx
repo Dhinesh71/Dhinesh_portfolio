@@ -32,7 +32,6 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isThemePickerOpen, setIsThemePickerOpen] = useState(false);
     const navRef = useRef(null);
-    const secretTapRef = useRef({ count: 0, timeoutId: null });
 
     const enabledLinks = content.navigation.links.filter((link) => {
         if (link.enabled === false) {
@@ -55,24 +54,6 @@ const Navbar = () => {
 
     const handleBrandTap = () => {
         window.dispatchEvent(new Event("closeModals"));
-
-        if (secretTapRef.current.timeoutId) {
-            window.clearTimeout(secretTapRef.current.timeoutId);
-        }
-
-        secretTapRef.current.count += 1;
-
-        if (secretTapRef.current.count >= 5) {
-            secretTapRef.current.count = 0;
-            secretTapRef.current.timeoutId = null;
-            window.dispatchEvent(new Event("openAdminPanel"));
-            return;
-        }
-
-        secretTapRef.current.timeoutId = window.setTimeout(() => {
-            secretTapRef.current.count = 0;
-            secretTapRef.current.timeoutId = null;
-        }, 1500);
     };
 
     useEffect(() => {
@@ -99,8 +80,6 @@ const Navbar = () => {
     }, [isOpen]);
 
     useEffect(() => {
-        const secretTapState = secretTapRef.current;
-
         const onKeyDown = (event) => {
             if (event.key === "Escape") {
                 setIsThemePickerOpen(false);
@@ -111,9 +90,6 @@ const Navbar = () => {
 
         return () => {
             window.removeEventListener("keydown", onKeyDown);
-            if (secretTapState.timeoutId) {
-                window.clearTimeout(secretTapState.timeoutId);
-            }
         };
     }, []);
 

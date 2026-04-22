@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ContentProvider, useContent } from "./context/ContentContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/layout/Navbar";
@@ -13,9 +13,8 @@ import Footer from "./components/layout/Footer";
 import Loader from "./components/common/Loader";
 import BackToTop from "./components/common/BackToTop";
 import Background3D from "./components/common/Background3D";
-import AdminPanel from "./components/admin/AdminPanel";
 
-const PortfolioShell = ({ isAdminOpen, onCloseAdmin }) => {
+const PortfolioShell = () => {
     const { content } = useContent();
     const [loading, setLoading] = useState(true);
 
@@ -24,10 +23,7 @@ const PortfolioShell = ({ isAdminOpen, onCloseAdmin }) => {
             {loading ? (
                 <Loader onFinished={() => setLoading(false)} />
             ) : (
-                <div
-                    aria-hidden={isAdminOpen}
-                    className={`relative z-10 transition-opacity duration-300 ${isAdminOpen ? "opacity-0 pointer-events-none select-none" : "opacity-100"}`}
-                >
+                <div className="relative z-10 transition-opacity duration-300 opacity-100">
                     <Background3D />
                     <Navbar />
                     <main className="relative z-10">
@@ -43,45 +39,15 @@ const PortfolioShell = ({ isAdminOpen, onCloseAdmin }) => {
                     <BackToTop />
                 </div>
             )}
-
-            <AdminPanel isOpen={isAdminOpen} onClose={onCloseAdmin} />
         </div>
     );
 };
 
 function App() {
-    const [isAdminOpen, setIsAdminOpen] = useState(false);
-
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            const isAdminShortcut = (event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "a";
-
-            if (!isAdminShortcut) {
-                return;
-            }
-
-            event.preventDefault();
-            setIsAdminOpen(true);
-        };
-
-        const handleOpenAdmin = () => setIsAdminOpen(true);
-
-        window.addEventListener("keydown", handleKeyDown);
-        window.addEventListener("openAdminPanel", handleOpenAdmin);
-
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-            window.removeEventListener("openAdminPanel", handleOpenAdmin);
-        };
-    }, []);
-
     return (
         <ThemeProvider>
             <ContentProvider>
-                <PortfolioShell
-                    isAdminOpen={isAdminOpen}
-                    onCloseAdmin={() => setIsAdminOpen(false)}
-                />
+                <PortfolioShell />
             </ContentProvider>
         </ThemeProvider>
     );
