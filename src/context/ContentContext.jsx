@@ -172,10 +172,35 @@ const getInitialContent = () => {
 const getInitialPersistence = () =>
     derivePersistenceState(createPersistenceState(loadPersistenceMeta()));
 
+const getTimestampValue = (value) => {
+    const timestamp = Date.parse(value || "");
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+};
+
+const shouldApplyRemoteContent = ({ remoteUpdatedAt, storedMeta, hasActiveAdminSession }) => {
+    if (!storedMeta.hasPendingSync) {
+        return true;
+    }
+
+    if (!hasActiveAdminSession) {
+        return true;
+    }
+
+    const localTimestamp = getTimestampValue(storedMeta.lastLocalSaveAt);
+    const remoteTimestamp = getTimestampValue(remoteUpdatedAt);
+
+    if (!localTimestamp) {
+        return true;
+    }
+
+    return remoteTimestamp >= localTimestamp;
+};
+
 export const ContentProvider = ({ children }) => {
     const [content, setContent] = useState(getInitialContent);
     const [persistence, setPersistence] = useState(getInitialPersistence);
     const skipPendingSyncRef = useRef(true);
+    const didSkipInitialLocalSaveRef = useRef(false);
 
     useEffect(() => {
         if (typeof window === "undefined") {
@@ -231,6 +256,11 @@ export const ContentProvider = ({ children }) => {
             return undefined;
         }
 
+        if (!didSkipInitialLocalSaveRef.current) {
+            didSkipInitialLocalSaveRef.current = true;
+            return undefined;
+        }
+
         saveContentLocally(content);
 
         setPersistence((previousState) => {
@@ -272,8 +302,14 @@ export const ContentProvider = ({ children }) => {
                 }
 
                 const storedMeta = loadPersistenceMeta();
-                const hasPendingLocalChanges = Boolean(storedMeta.hasPendingSync);
                 const remoteTimestamp = remoteResult.updatedAt || new Date().toISOString();
+                const shouldUseRemoteContent = remoteResult.content
+                    ? shouldApplyRemoteContent({
+                        remoteUpdatedAt: remoteTimestamp,
+                        storedMeta,
+                        hasActiveAdminSession: Boolean(getAdminSessionPasscode()),
+                    })
+                    : false;
 
                 setPersistence((previousState) =>
                     derivePersistenceState({
@@ -285,7 +321,7 @@ export const ContentProvider = ({ children }) => {
                     })
                 );
 
-                if (!hasPendingLocalChanges && remoteResult.content) {
+                if (shouldUseRemoteContent) {
                     skipPendingSyncRef.current = true;
                     setContent(normalizeContentShape(remoteResult.content));
                     setPersistence((previousState) =>
