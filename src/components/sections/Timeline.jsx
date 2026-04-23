@@ -28,10 +28,6 @@ const escapeHtml = (value = "") =>
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
 
-const isDesktopDevice = () =>
-    typeof window.orientation === "undefined" &&
-    navigator.userAgent.indexOf("IEMobile") === -1;
-
 const isCompactScreen = () => window.innerWidth < 767;
 
 const addNodeRefsToItems = (timeline) =>
@@ -227,28 +223,6 @@ const animateTimeline = (items, timeline, svgContainer, duration) => {
     });
 };
 
-const setSlidesAnimation = (timeline, slides, screenContainer) => {
-    slides.forEach((_, index) => {
-        if (index !== 0) {
-            timeline.fromTo(
-                screenContainer.querySelector(`.slide-${index + 1}`),
-                { opacity: 0 },
-                { opacity: 1 }
-            );
-        }
-
-        if (index !== slides.length - 1) {
-            timeline.to(
-                screenContainer.querySelector(`.slide-${index + 1}`),
-                {
-                    opacity: 0,
-                    delay: 2.35,
-                }
-            );
-        }
-    });
-};
-
 const Timeline = () => {
     const { content } = useContent();
     const timelineContent = content.timeline;
@@ -290,12 +264,18 @@ const Timeline = () => {
         const svgWidth = Math.max(svgContainerRef.current.clientWidth || 0, 320);
         const svgLength = Math.max(checkpointItems.length * SEPARATION, SEPARATION);
         const rightBranchX = isCompactScreen() ? 70 : 109;
-        const shouldPinSlides = isDesktopDevice() && !isCompactScreen() && screenContainerRef.current;
+        const slideElements = screenContainerRef.current
+            ? Array.from(screenContainerRef.current.querySelectorAll("[data-timeline-slide]"))
+            : [];
 
         svgRef.current.setAttribute("width", String(svgWidth));
         svgRef.current.setAttribute("height", String(svgLength));
         svgRef.current.setAttribute("viewBox", `0 0 ${svgWidth} ${svgLength}`);
         svgRef.current.innerHTML = generateTimelineSvg(items, svgWidth, rightBranchX);
+        gsap.set(slideElements, { opacity: 0 });
+        if (slideElements[0]) {
+            gsap.set(slideElements[0], { opacity: 1 });
+        }
 
         const timeline = gsap.timeline({
             defaults: {
@@ -304,35 +284,14 @@ const Timeline = () => {
             },
         }).addLabel("start");
 
-        let duration = 3;
-        let scrollTriggerInstance;
-
-        if (shouldPinSlides) {
-            setSlidesAnimation(timeline, checkpointItems, screenContainerRef.current);
-
-            const platformHeight = screenContainerRef.current.getBoundingClientRect().height || 384;
-            const scrollDistance = Math.max(svgLength - platformHeight, SEPARATION);
-
-            scrollTriggerInstance = ScrollTrigger.create({
-                trigger: screenContainerRef.current,
-                start: `top ${(window.innerHeight - platformHeight) / 2}`,
-                end: `+=${scrollDistance}`,
-                scrub: 0,
-                pin: true,
-                pinSpacing: true,
-                animation: timeline,
-            });
-
-            duration = Math.max(timeline.totalDuration() / checkpointItems.length, 0.75);
-        } else {
-            scrollTriggerInstance = ScrollTrigger.create({
-                trigger: svgContainerRef.current,
-                start: "top center",
-                end: `+=${svgLength}`,
-                scrub: 0,
-                animation: timeline,
-            });
-        }
+        const duration = 3;
+        const scrollTriggerInstance = ScrollTrigger.create({
+            trigger: svgContainerRef.current,
+            start: "top center",
+            end: `+=${svgLength}`,
+            scrub: 0,
+            animation: timeline,
+        });
 
         animateTimeline(items, timeline, svgContainerRef.current, duration);
         ScrollTrigger.refresh();
@@ -340,6 +299,7 @@ const Timeline = () => {
         return () => {
             scrollTriggerInstance?.kill();
             timeline.kill();
+            gsap.set(slideElements, { clearProps: "opacity" });
         };
     }, [checkpointItems, items, resizeTick]);
 
@@ -382,7 +342,7 @@ const Timeline = () => {
                         />
                     </div>
 
-                    <div className="col-span-12 hidden md:col-span-6 md:flex">
+                    <div className="col-span-12 hidden md:col-span-6 md:flex md:sticky md:top-24 md:self-start">
                         <div
                             ref={screenContainerRef}
                             className="h-96 max-w-full overflow-hidden rounded-2xl bg-slate-900/65 shadow-2xl backdrop-blur-xl ring-1 ring-white/10"
@@ -396,7 +356,8 @@ const Timeline = () => {
                                 <div className="absolute inset-0 h-full w-full">
                                     {checkpointItems.map((item, index) => (
                                         <img
-                                            key={`${item.title}-${index}`}
+                                            key={`${item.title}-${item.slideImage || "generated"}-${index}`}
+                                            data-timeline-slide
                                             src={item.slideImage || createTimelineSlide({
                                                 eyebrow: timelineContent.eyebrow,
                                                 title: item.title,

@@ -27,8 +27,7 @@ const ProjectCard = ({ project, index, labels, registerCard }) => {
     return (
         <article
             ref={registerCard(index)}
-            className="project-card group perspective-1000 relative w-[min(32rem,calc(100vw-2rem))] shrink-0 snap-start sm:w-[28rem] lg:w-[32rem]"
-            style={{ height: '21rem' }}
+            className="project-card group perspective-1000 relative h-[21rem] w-[min(32rem,calc(100vw-2rem))] shrink-0 snap-start sm:w-[28rem] lg:w-[32rem]"
         >
             <div 
                 className="relative h-full w-full transition-transform duration-700 preserve-3d group-hover:rotate-y-180"
@@ -36,8 +35,10 @@ const ProjectCard = ({ project, index, labels, registerCard }) => {
                 {/* Front Side: ONLY Image */}
                 <div className="absolute inset-0 backface-hidden rounded-[1.75rem] overflow-hidden border border-white/10 shadow-xl bg-slate-900">
                     <img
+                        key={`${project.id}-${project.image}`}
                         src={project.image}
                         alt={project.title}
+                        draggable={false}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
@@ -175,7 +176,7 @@ const Projects = () => {
                     y: 44,
                     opacity: 0,
                     duration: 0.85,
-                    stagger: 0.12,
+                    stagger: 0.08,
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: section,
@@ -185,7 +186,7 @@ const Projects = () => {
                 });
 
                 const resetRail = () => {
-                    gsap.set(track, { clearProps: "all" });
+                    gsap.set(track, { clearProps: "transform" });
                     viewport.style.removeProperty("overflow-x");
                     viewport.style.removeProperty("overflow-y");
                 };
@@ -224,8 +225,8 @@ const Projects = () => {
                 return () => {
                     horizontalTrigger?.kill();
                     horizontalTween?.kill();
-                    revealTween?.scrollTrigger?.kill();
-                    revealTween?.kill();
+                    revealTween.scrollTrigger?.kill();
+                    revealTween.kill();
                     resetRail();
                 };
             }
@@ -243,7 +244,7 @@ const Projects = () => {
             <div id="projects-anchor" className="absolute -top-16 left-0 w-px h-px pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.14),transparent_32%)]" />
 
-            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-4 sm:px-10 lg:px-16 xl:px-20">
+            <div className="relative z-10 flex w-full flex-col px-4 sm:px-6 lg:px-8">
                 <div className="projects-copy max-w-3xl">
                     <p className="text-sm font-semibold uppercase tracking-[0.35em] text-accent/80">
                         {projects.titlePrefix}
@@ -266,7 +267,7 @@ const Projects = () => {
                     >
                         {projects.items.map((project, index) => (
                             <ProjectCard
-                                key={project.id}
+                                key={`${project.id}-${project.title}-${project.image}`}
                                 project={project}
                                 index={index}
                                 labels={projects.labels}

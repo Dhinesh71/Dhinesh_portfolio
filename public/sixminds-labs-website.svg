@@ -1,0 +1,25 @@
+<svg width="1024" height="672" viewBox="0 0 1024 672" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="672" fill="#070B14"/>
+  <rect x="58" y="54" width="908" height="564" rx="38" fill="#101827" stroke="#28384F" stroke-width="2"/>
+  <rect x="100" y="96" width="824" height="76" rx="24" fill="#172033"/>
+  <text x="132" y="145" fill="#EAF2FF" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="900">6ixminds Labs</text>
+  <text x="724" y="144" fill="#93C5FD" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Admin Panel</text>
+  <rect x="100" y="218" width="360" height="318" rx="30" fill="#151F38" stroke="#2E4372"/>
+  <text x="134" y="274" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="900">Company Website</text>
+  <rect x="134" y="322" width="252" height="18" rx="9" fill="#334155"/>
+  <rect x="134" y="362" width="292" height="18" rx="9" fill="#334155"/>
+  <rect x="134" y="426" width="164" height="52" rx="20" fill="#2563EB"/>
+  <text x="176" y="459" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900">Explore</text>
+  <rect x="514" y="218" width="410" height="318" rx="30" fill="#0F2433" stroke="#1F6C7D"/>
+  <text x="552" y="274" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="900">Manage Content</text>
+  <rect x="552" y="320" width="296" height="48" rx="16" fill="#17384B"/>
+  <rect x="552" y="390" width="256" height="48" rx="16" fill="#17384B"/>
+  <rect x="552" y="460" width="324" height="48" rx="16" fill="#17384B"/>
+  <defs>
+    <radialGradient id="labsGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 150) rotate(138) scale(570 510)">
+      <stop stop-color="#2563EB" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="672" fill="url(#labsGlow)"/>
+</svg>

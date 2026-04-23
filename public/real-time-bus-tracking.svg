@@ -1,0 +1,24 @@
+<svg width="1024" height="672" viewBox="0 0 1024 672" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="672" fill="#07111F"/>
+  <rect x="58" y="54" width="908" height="564" rx="38" fill="#0E1B2D" stroke="#1F3B56" stroke-width="2"/>
+  <text x="104" y="126" fill="#EAF8FF" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900">Real-Time Bus Tracking</text>
+  <text x="106" y="164" fill="#8FB3CB" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Driver app, user app, admin dashboard</text>
+  <rect x="104" y="220" width="420" height="330" rx="30" fill="#10243A" stroke="#244865"/>
+  <path d="M150 402C210 332 284 392 344 326C392 274 452 296 488 252" stroke="#22D3EE" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="150" cy="402" r="16" fill="#22D3EE"/>
+  <circle cx="344" cy="326" r="16" fill="#38BDF8"/>
+  <circle cx="488" cy="252" r="16" fill="#0EA5E9"/>
+  <rect x="584" y="224" width="294" height="208" rx="32" fill="#FACC15"/>
+  <rect x="620" y="262" width="222" height="72" rx="18" fill="#111827"/>
+  <circle cx="644" cy="448" r="28" fill="#0F172A"/>
+  <circle cx="820" cy="448" r="28" fill="#0F172A"/>
+  <text x="626" y="308" fill="#E0F2FE" font-family="Inter, Arial, sans-serif" font-size="21" font-weight="900">LIVE BUS</text>
+  <rect x="612" y="500" width="240" height="18" rx="9" fill="#31506B"/>
+  <defs>
+    <radialGradient id="busGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(780 170) rotate(138) scale(560 510)">
+      <stop stop-color="#22D3EE" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="672" fill="url(#busGlow)"/>
+</svg>

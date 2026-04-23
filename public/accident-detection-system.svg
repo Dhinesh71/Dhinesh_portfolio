@@ -1,0 +1,21 @@
+<svg width="1024" height="672" viewBox="0 0 1024 672" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="672" fill="#120A0A"/>
+  <rect x="58" y="54" width="908" height="564" rx="38" fill="#1B1113" stroke="#4B2529" stroke-width="2"/>
+  <text x="104" y="126" fill="#FFF1F2" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900">Real-Time Accident Detection</text>
+  <text x="106" y="164" fill="#FDA4AF" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Computer vision alerts from webcam input</text>
+  <rect x="104" y="220" width="816" height="348" rx="30" fill="#26171A" stroke="#62333A"/>
+  <rect x="148" y="264" width="470" height="260" rx="24" fill="#080A0F"/>
+  <rect x="190" y="306" width="150" height="86" rx="12" stroke="#EF4444" stroke-width="6"/>
+  <rect x="372" y="348" width="166" height="96" rx="12" stroke="#F97316" stroke-width="6"/>
+  <text x="668" y="318" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="900">ALERT</text>
+  <text x="668" y="358" fill="#FDA4AF" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="750">Accident detected</text>
+  <rect x="668" y="404" width="176" height="54" rx="20" fill="#EF4444"/>
+  <text x="706" y="439" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="900">Notify</text>
+  <defs>
+    <radialGradient id="alertGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(805 160) rotate(137) scale(570 520)">
+      <stop stop-color="#EF4444" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#EF4444" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="672" fill="url(#alertGlow)"/>
+</svg>

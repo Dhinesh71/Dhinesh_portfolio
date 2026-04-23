@@ -1,0 +1,23 @@
+<svg width="1024" height="672" viewBox="0 0 1024 672" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="672" fill="#06140D"/>
+  <rect x="58" y="54" width="908" height="564" rx="38" fill="#0B1E14" stroke="#1D4B31" stroke-width="2"/>
+  <text x="104" y="126" fill="#ECFDF5" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900">LeadFlow</text>
+  <text x="106" y="164" fill="#86EFAC" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">WhatsApp automation and lead tracking</text>
+  <rect x="112" y="220" width="320" height="340" rx="36" fill="#102A1B" stroke="#22633F"/>
+  <circle cx="272" cy="304" r="54" fill="#22C55E"/>
+  <path d="M252 286C262 326 298 326 310 294" stroke="#052E16" stroke-width="10" stroke-linecap="round"/>
+  <rect x="168" y="402" width="208" height="20" rx="10" fill="#22543A"/>
+  <rect x="168" y="444" width="156" height="20" rx="10" fill="#22543A"/>
+  <rect x="500" y="226" width="360" height="320" rx="32" fill="#11251B" stroke="#22633F"/>
+  <text x="536" y="284" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="900">Lead Pipeline</text>
+  <rect x="536" y="330" width="250" height="48" rx="16" fill="#173D28"/>
+  <rect x="536" y="400" width="292" height="48" rx="16" fill="#173D28"/>
+  <rect x="536" y="470" width="222" height="48" rx="16" fill="#173D28"/>
+  <defs>
+    <radialGradient id="leadGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(780 152) rotate(138) scale(570 515)">
+      <stop stop-color="#22C55E" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="672" fill="url(#leadGlow)"/>
+</svg>

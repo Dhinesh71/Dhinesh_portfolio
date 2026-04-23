@@ -1,0 +1,37 @@
+<svg width="1024" height="672" viewBox="0 0 1024 672" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="672" fill="#07111F"/>
+  <rect x="56" y="52" width="912" height="568" rx="38" fill="#0E1B2D" stroke="#1F3B56" stroke-width="2"/>
+  <rect x="56" y="52" width="912" height="86" rx="38" fill="#10243A"/>
+  <rect x="56" y="100" width="912" height="38" fill="#10243A"/>
+  <circle cx="112" cy="95" r="11" fill="#22D3EE"/>
+  <circle cx="150" cy="95" r="11" fill="#38BDF8"/>
+  <circle cx="188" cy="95" r="11" fill="#0EA5E9"/>
+  <text x="234" y="103" fill="#EAF8FF" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="800">Vela Dry Wash</text>
+  <text x="760" y="102" fill="#8FB3CB" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600">Billing Dashboard</text>
+  <rect x="96" y="180" width="230" height="142" rx="24" fill="#12263E" stroke="#244865"/>
+  <text x="124" y="222" fill="#8FB3CB" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700">Today Revenue</text>
+  <text x="124" y="277" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900">₹18,420</text>
+  <rect x="362" y="180" width="230" height="142" rx="24" fill="#12263E" stroke="#244865"/>
+  <text x="390" y="222" fill="#8FB3CB" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700">Invoices</text>
+  <text x="390" y="277" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900">128</text>
+  <rect x="628" y="180" width="300" height="142" rx="24" fill="#123044" stroke="#1F6C7D"/>
+  <text x="656" y="222" fill="#9DECF8" font-family="Inter, Arial, sans-serif" font-size="19" font-weight="700">Customers Managed</text>
+  <text x="656" y="277" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900">2,460</text>
+  <rect x="96" y="360" width="508" height="198" rx="28" fill="#101F34" stroke="#244865"/>
+  <text x="130" y="411" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Recent Invoices</text>
+  <rect x="130" y="444" width="420" height="18" rx="9" fill="#234157"/>
+  <rect x="130" y="486" width="340" height="18" rx="9" fill="#1D3549"/>
+  <rect x="130" y="528" width="382" height="18" rx="9" fill="#1D3549"/>
+  <rect x="640" y="360" width="288" height="198" rx="28" fill="#0F2A3A" stroke="#1F6C7D"/>
+  <text x="674" y="411" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850">Operations</text>
+  <rect x="674" y="448" width="184" height="42" rx="21" fill="#08B6D6"/>
+  <text x="710" y="476" fill="#04111A" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="900">New Invoice</text>
+  <rect x="674" y="510" width="202" height="18" rx="9" fill="#1F4D5E"/>
+  <defs>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(807 148) rotate(130) scale(576 517)">
+      <stop stop-color="#22D3EE" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="672" fill="url(#glow)"/>
+</svg>

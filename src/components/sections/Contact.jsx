@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import SectionWrapper from "../common/SectionWrapper";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -38,7 +38,7 @@ const Contact = () => {
         setStatus({ submitting: true, succeeded: false, error: null });
 
         try {
-            const response = await fetch(contact.googleScriptUrl, {
+            await fetch(contact.googleScriptUrl, {
                 method: "POST",
                 mode: "no-cors", // Required for Google Apps Script
                 headers: {
