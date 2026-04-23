@@ -12,7 +12,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const SVG_COLOR = "#9CA3AF";
-const ANIMATION_COLOR = "#FCD34D";
+const ANIMATION_COLOR = "#22D3EE";
 const SEPARATION = 450;
 const STROKE_WIDTH = 2;
 const LEFT_BRANCH_X = 13;
@@ -36,9 +36,6 @@ const addNodeRefsToItems = (timeline) =>
         next: timeline[index + 1],
         prev: timeline[index - 1],
     }));
-
-const getDotString = (x, y) =>
-    `<rect class='dot' width='${DOT_SIZE}' height='${DOT_SIZE}' fill='#111827' x='${x - DOT_SIZE / 2}' y='${y - DOT_SIZE / 2}'></rect><circle cx='${x}' cy='${y}' r='7' stroke='${SVG_COLOR}' class='dot'></circle>`;
 
 const addText = (timelineNode, y, isDiverged, svgWidth, rightBranchX) => {
     const offset = isDiverged ? rightBranchX : 10;
@@ -66,6 +63,9 @@ const addText = (timelineNode, y, isDiverged, svgWidth, rightBranchX) => {
     </foreignObject>`;
 };
 
+const getDotString = (x, y) =>
+    `<rect class='dot' width='${DOT_SIZE}' height='${DOT_SIZE}' fill='#111827' x='${x - DOT_SIZE / 2}' y='${y - DOT_SIZE / 2}'></rect><circle cx='${x}' cy='${y}' r='7' stroke='${SVG_COLOR}' class='dot'></circle>`;
+
 const drawDot = (timelineNode, y, isDiverged, svgWidth, rightBranchX) => {
     const { next, alignment } = timelineNode;
     let dotY = y;
@@ -83,9 +83,7 @@ const drawDot = (timelineNode, y, isDiverged, svgWidth, rightBranchX) => {
         dotY
     );
 
-    const textString = addText(timelineNode, dotY, isDiverged, svgWidth, rightBranchX);
-
-    return `${textString}${dotString}`;
+    return `${addText(timelineNode, dotY, isDiverged, svgWidth, rightBranchX)}${dotString}`;
 };
 
 const drawLine = (timelineNode, y, index, isDiverged, rightBranchX) => {
@@ -223,19 +221,79 @@ const animateTimeline = (items, timeline, svgContainer, duration) => {
     });
 };
 
+const createFallbackSlide = (timelineContent, item) =>
+    createTimelineSlide({
+        eyebrow: timelineContent.eyebrow,
+        title: item.title,
+        subtitle: item.subtitle || "",
+    });
+
+const getTimelinePreviewLayouts = (timelineItems) =>
+    addNodeRefsToItems(timelineItems)
+        .filter((item) => item.type === NODE_TYPES.CHECKPOINT && item.shouldDrawLine)
+        .map((item, previewIndex) => ({ item, previewIndex }));
+
+const TimelinePreviewCard = ({ item, previewIndex, timelineContent, className = "", style }) => {
+    const fallbackImage = createFallbackSlide(timelineContent, item);
+
+    return (
+        <article
+            data-timeline-preview-card={previewIndex}
+            className={`timeline-preview-card invisible w-full overflow-hidden rounded-2xl bg-slate-900/65 opacity-0 shadow-2xl backdrop-blur-xl ring-1 ring-white/10 ${className}`}
+            style={style}
+        >
+            <img
+                src="/timeline/title-bar.svg"
+                alt=""
+                className="h-8 w-full"
+                draggable={false}
+            />
+            <div className="relative aspect-[16/9] w-full bg-slate-950/80">
+                <img
+                    src={item.slideImage || fallbackImage}
+                    alt={item.title}
+                    loading="eager"
+                    decoding="async"
+                    draggable={false}
+                    onError={(event) => {
+                        const image = event.currentTarget;
+
+                        if (image.dataset.fallbackApplied) {
+                            return;
+                        }
+
+                        image.dataset.fallbackApplied = "true";
+                        image.src = fallbackImage;
+                    }}
+                    className="h-full w-full object-cover"
+                />
+            </div>
+        </article>
+    );
+};
+
 const Timeline = () => {
     const { content } = useContent();
     const timelineContent = content.timeline;
     const items = useMemo(() => timelineContent?.items || [], [timelineContent?.items]);
+    const sectionRef = useRef(null);
     const svgContainerRef = useRef(null);
     const svgRef = useRef(null);
-    const screenContainerRef = useRef(null);
     const [resizeTick, setResizeTick] = useState(0);
 
     const checkpointItems = useMemo(
         () => items.filter((item) => item.type === NODE_TYPES.CHECKPOINT && item.shouldDrawLine),
         [items]
     );
+    const timelineVisualHeight = useMemo(
+        () => Math.max(checkpointItems.length * SEPARATION, SEPARATION),
+        [checkpointItems.length]
+    );
+    const previewLayouts = useMemo(
+        () => getTimelinePreviewLayouts(items),
+        [items]
+    );
+    const compactLayout = typeof window !== "undefined" && isCompactScreen();
 
     useEffect(() => {
         let timeoutId;
@@ -255,27 +313,20 @@ const Timeline = () => {
     }, []);
 
     useEffect(() => {
-        if (!svgContainerRef.current || !svgRef.current || checkpointItems.length === 0) {
+        if (!sectionRef.current || !svgContainerRef.current || !svgRef.current || checkpointItems.length === 0) {
             return undefined;
         }
 
         gsap.config({ nullTargetWarn: false });
 
         const svgWidth = Math.max(svgContainerRef.current.clientWidth || 0, 320);
-        const svgLength = Math.max(checkpointItems.length * SEPARATION, SEPARATION);
+        const svgLength = timelineVisualHeight;
         const rightBranchX = isCompactScreen() ? 70 : 109;
-        const slideElements = screenContainerRef.current
-            ? Array.from(screenContainerRef.current.querySelectorAll("[data-timeline-slide]"))
-            : [];
 
         svgRef.current.setAttribute("width", String(svgWidth));
         svgRef.current.setAttribute("height", String(svgLength));
         svgRef.current.setAttribute("viewBox", `0 0 ${svgWidth} ${svgLength}`);
         svgRef.current.innerHTML = generateTimelineSvg(items, svgWidth, rightBranchX);
-        gsap.set(slideElements, { opacity: 0 });
-        if (slideElements[0]) {
-            gsap.set(slideElements[0], { opacity: 1 });
-        }
 
         const timeline = gsap.timeline({
             defaults: {
@@ -292,16 +343,74 @@ const Timeline = () => {
             scrub: 0,
             animation: timeline,
         });
+        const previewCards = Array.from(sectionRef.current.querySelectorAll(".timeline-preview-card"));
+        const previewTriggers = previewCards.map((card) => {
+            gsap.set(card, {
+                autoAlpha: 0,
+                y: 24,
+                scale: 0.985,
+                filter: "brightness(1)",
+            });
+
+            const showCard = () => {
+                gsap.to(card, {
+                    autoAlpha: 1,
+                    y: 0,
+                    scale: 1,
+                    filter: "brightness(1.18)",
+                    duration: 0.24,
+                    ease: "power2.out",
+                    overwrite: "auto",
+                    onComplete: () => {
+                        gsap.to(card, {
+                            filter: "brightness(1)",
+                            duration: 0.18,
+                            ease: "power1.out",
+                            overwrite: "auto",
+                        });
+                    },
+                });
+            };
+
+            const hideCard = () => {
+                gsap.to(card, {
+                    autoAlpha: 0,
+                    y: 18,
+                    scale: 0.985,
+                    filter: "brightness(1)",
+                    duration: 0.22,
+                    ease: "power2.inOut",
+                    overwrite: "auto",
+                });
+            };
+
+            return ScrollTrigger.create({
+                trigger: card,
+                start: "top 76%",
+                end: "bottom 24%",
+                onEnter: showCard,
+                onEnterBack: showCard,
+                onLeave: hideCard,
+                onLeaveBack: hideCard,
+            });
+        });
 
         animateTimeline(items, timeline, svgContainerRef.current, duration);
         ScrollTrigger.refresh();
 
         return () => {
             scrollTriggerInstance?.kill();
+            previewTriggers.forEach((trigger) => trigger.kill());
             timeline.kill();
-            gsap.set(slideElements, { clearProps: "opacity" });
+            gsap.killTweensOf(previewCards);
+            gsap.set(previewCards, {
+                autoAlpha: 0,
+                y: 24,
+                scale: 0.985,
+                filter: "brightness(1)",
+            });
         };
-    }, [checkpointItems, items, resizeTick]);
+    }, [checkpointItems, items, resizeTick, timelineVisualHeight, previewLayouts]);
 
     if (!timelineContent?.enabled) {
         return null;
@@ -310,6 +419,7 @@ const Timeline = () => {
     return (
         <section
             id="timeline"
+            ref={sectionRef}
             className="relative min-h-screen overflow-hidden py-24 text-white"
         >
             <div className="pointer-events-none absolute inset-0 opacity-90">
@@ -321,7 +431,7 @@ const Timeline = () => {
 
             <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8">
                 <div className="flex max-w-3xl flex-col">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
                         {timelineContent.eyebrow}
                     </p>
                     <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
@@ -333,7 +443,10 @@ const Timeline = () => {
                 </div>
 
                 <div className="mt-20 grid grid-cols-12 gap-6 xl:gap-10">
-                    <div className="col-span-12 md:col-span-6" ref={svgContainerRef}>
+                    <div
+                        ref={svgContainerRef}
+                        style={{ gridColumn: compactLayout ? "1 / -1" : "span 6 / span 6" }}
+                    >
                         <svg
                             ref={svgRef}
                             fill="none"
@@ -342,36 +455,26 @@ const Timeline = () => {
                         />
                     </div>
 
-                    <div className="col-span-12 hidden md:col-span-6 md:flex md:sticky md:top-24 md:self-start">
-                        <div
-                            ref={screenContainerRef}
-                            className="h-96 max-w-full overflow-hidden rounded-2xl bg-slate-900/65 shadow-2xl backdrop-blur-xl ring-1 ring-white/10"
-                        >
-                            <img
-                                src="/timeline/title-bar.svg"
-                                alt="Timeline preview frame"
-                                className="h-8 w-full"
-                            />
-                            <div className="relative -mt-2 h-full w-full bg-slate-950/80">
-                                <div className="absolute inset-0 h-full w-full">
-                                    {checkpointItems.map((item, index) => (
-                                        <img
-                                            key={`${item.title}-${item.slideImage || "generated"}-${index}`}
-                                            data-timeline-slide
-                                            src={item.slideImage || createTimelineSlide({
-                                                eyebrow: timelineContent.eyebrow,
-                                                title: item.title,
-                                                subtitle: item.subtitle || "",
-                                            })}
-                                            alt={item.title}
-                                            loading="lazy"
-                                            className={`slide-${index + 1} absolute left-0 top-0 h-full w-full object-cover`}
-                                            style={{ opacity: index === 0 ? 1 : 0 }}
-                                        />
-                                    ))}
-                                </div>
+                    <div
+                        className="hidden md:block"
+                        style={{
+                            gridColumn: "span 6 / span 6",
+                            minHeight: `${timelineVisualHeight}px`,
+                        }}
+                    >
+                        {previewLayouts.map(({ item, previewIndex }, index) => (
+                            <div
+                                key={`${item.title}-${item.slideImage || "generated"}-${index}`}
+                                className="timeline-preview-slot flex items-center"
+                                style={{ height: `${SEPARATION}px` }}
+                            >
+                                <TimelinePreviewCard
+                                    item={item}
+                                    previewIndex={previewIndex}
+                                    timelineContent={timelineContent}
+                                />
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

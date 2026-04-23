@@ -171,8 +171,11 @@ const Projects = () => {
                 const { desktop, motionAllowed } = context.conditions;
                 let horizontalTween;
                 let horizontalTrigger;
+                const projectCards = section.querySelectorAll(".project-card");
 
-                const revealTween = gsap.from(section.querySelectorAll(".projects-copy, .project-card"), {
+                gsap.set(projectCards, { clearProps: "opacity,visibility" });
+
+                const revealTween = gsap.from(section.querySelectorAll(".projects-copy"), {
                     y: 44,
                     opacity: 0,
                     duration: 0.85,
@@ -227,6 +230,7 @@ const Projects = () => {
                     horizontalTween?.kill();
                     revealTween.scrollTrigger?.kill();
                     revealTween.kill();
+                    gsap.set(projectCards, { clearProps: "opacity,visibility" });
                     resetRail();
                 };
             }
