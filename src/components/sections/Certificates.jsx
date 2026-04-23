@@ -17,6 +17,20 @@ const getCertificateType = (link) => {
     return "embed";
 };
 
+const getPriorityClassName = (priority = "") => {
+    const normalizedPriority = priority.toLowerCase();
+
+    if (normalizedPriority.includes("high")) {
+        return "border-amber-400/40 bg-amber-400/10 text-amber-300";
+    }
+
+    if (normalizedPriority.includes("medium")) {
+        return "border-sky-400/40 bg-sky-400/10 text-sky-300";
+    }
+
+    return "border-main/15 bg-main/5 text-main/65";
+};
+
 const Certificates = () => {
     const { content } = useContent();
     const { certificates } = content;
@@ -53,8 +67,16 @@ const Certificates = () => {
                         >
                             <div className="absolute -top-10 -right-10 w-24 h-24 bg-accent/5 rounded-full group-hover:bg-accent/10 transition-colors" />
 
-                            <div className="text-4xl text-accent mb-4 group-hover:scale-110 transition-transform duration-300">
-                                <HiOutlineBadgeCheck />
+                            <div className="mb-4 flex w-full items-center justify-between gap-3">
+                                <div className="text-4xl text-accent group-hover:scale-110 transition-transform duration-300">
+                                    <HiOutlineBadgeCheck />
+                                </div>
+
+                                {certificate.priority && (
+                                    <span className={`rounded-full border px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] ${getPriorityClassName(certificate.priority)}`}>
+                                        {certificate.priority}
+                                    </span>
+                                )}
                             </div>
 
                             <h3 className="text-xl font-bold text-main mb-2 tracking-tight">
@@ -65,9 +87,15 @@ const Certificates = () => {
                                 {certificate.issuer}
                             </p>
 
-                            <p className="text-main/60 text-xs mb-6 flex-grow">
+                            <p className="text-main/60 text-xs">
                                 {certificates.labels.issuedPrefix} {certificate.date}
                             </p>
+
+                            {certificate.description && (
+                                <p className="mt-4 text-sm leading-relaxed text-main/70 flex-grow">
+                                    {certificate.description}
+                                </p>
+                            )}
 
                             <button
                                 type="button"
@@ -111,7 +139,18 @@ const Certificates = () => {
                                 {selectedCertificate.issuer}
                             </span>
                             <span className="text-main/60">{certificates.labels.issuedPrefix} {selectedCertificate.date}</span>
+                            {selectedCertificate.priority && (
+                                <span className={`inline-flex items-center px-3 py-1 rounded-full border text-xs font-bold uppercase tracking-[0.16em] ${getPriorityClassName(selectedCertificate.priority)}`}>
+                                    {selectedCertificate.priority}
+                                </span>
+                            )}
                         </div>
+
+                        {selectedCertificate.description && (
+                            <p className="text-sm leading-relaxed text-main/70">
+                                {selectedCertificate.description}
+                            </p>
+                        )}
 
                         <div className="rounded-xl border border-main/15 bg-black/20 overflow-hidden">
                             {selectedType === "image" && (
