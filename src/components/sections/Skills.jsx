@@ -90,55 +90,55 @@ const Skills = () => {
     }, { scope: containerRef });
 
     return (
-        <section id="skills" className="relative py-24 overflow-hidden min-h-screen flex flex-col justify-center">
+        <section id="skills" className="relative py-16 sm:py-20 lg:py-24 overflow-hidden min-h-screen flex flex-col justify-center">
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[180px] animate-pulse" style={{ animationDelay: "2s" }} />
+                <div className="absolute top-1/4 left-1/4 h-72 w-72 sm:h-[500px] sm:w-[500px] bg-accent/5 rounded-full blur-[120px] sm:blur-[150px] animate-pulse" />
+                <div className="absolute bottom-1/4 right-1/4 h-80 w-80 sm:h-[600px] sm:w-[600px] bg-purple-500/5 rounded-full blur-[140px] sm:blur-[180px] animate-pulse" style={{ animationDelay: "2s" }} />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={containerRef}>
-                <div className="text-center mb-20">
-                    <h2 className="text-5xl md:text-6xl font-black text-main mb-6 tracking-tight">
+                <div className="text-center mb-10 sm:mb-14 lg:mb-20">
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-main mb-5 sm:mb-6 tracking-tight">
                         {skills.titlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">{skills.titleHighlight}</span>
                     </h2>
-                    <div className="h-2 w-32 bg-gradient-to-r from-accent to-purple-400 mx-auto rounded-full shadow-[0_4px_20px_rgba(var(--color-accent),0.4)]" />
+                    <div className="h-1.5 sm:h-2 w-24 sm:w-32 bg-gradient-to-r from-accent to-purple-400 mx-auto rounded-full shadow-[0_4px_20px_rgba(var(--color-accent),0.4)]" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 max-w-7xl mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 lg:gap-12 max-w-7xl mx-auto">
                     {skills.categories.map((category, index) => (
                         <div
                             key={`${category.category}-${index}`}
                             ref={(element) => {
                                 cardsRef.current[index] = element;
                             }}
-                            className="group relative p-10 rounded-[3rem] bg-secondary/80 dark:bg-secondary/30 backdrop-blur-3xl border-2 border-white/10 hover:border-accent/40 shadow-2xl transition-all duration-700 hover:shadow-accent/20 overflow-hidden"
+                            className="group relative p-5 sm:p-7 lg:p-10 rounded-2xl sm:rounded-[2rem] lg:rounded-[3rem] bg-secondary/80 dark:bg-secondary/30 backdrop-blur-3xl border-2 border-white/10 hover:border-accent/40 shadow-2xl transition-all duration-700 hover:shadow-accent/20 overflow-hidden"
                         >
                             <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000" />
 
                             <div className="relative z-10 flex flex-col h-full">
-                                <div className="flex items-center gap-6 mb-10">
-                                    <div className="p-5 rounded-[1.5rem] bg-primary/50 dark:bg-white/5 border border-white/10 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-500 group-hover:-rotate-12 shadow-inner">
+                                <div className="flex items-center gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
+                                    <div className="p-3 sm:p-5 rounded-2xl sm:rounded-[1.5rem] bg-primary/50 dark:bg-white/5 border border-white/10 group-hover:bg-accent/10 group-hover:border-accent/30 transition-all duration-500 group-hover:-rotate-12 shadow-inner">
                                         {categoryIcons[category.category] || <HiCodeBracket className="text-4xl text-accent" />}
                                     </div>
-                                    <h3 className="text-2xl font-black text-main tracking-tight group-hover:text-accent transition-colors duration-300">
+                                    <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-main tracking-tight group-hover:text-accent transition-colors duration-300">
                                         {category.category}
                                     </h3>
                                 </div>
 
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                                     {category.skills.map((skill) => (
                                         <div
                                             key={skill}
-                                            className="flex flex-col items-center justify-center p-4 bg-primary/40 dark:bg-white/[0.03] rounded-2xl border border-white/5 group-hover:border-accent/10 hover:bg-accent/5 hover:scale-105 transition-all duration-300 group/item cursor-default"
+                                            className="flex min-h-[6rem] flex-col items-center justify-center p-3 sm:p-4 bg-primary/40 dark:bg-white/[0.03] rounded-xl sm:rounded-2xl border border-white/5 group-hover:border-accent/10 hover:bg-accent/5 hover:scale-105 transition-all duration-300 group/item cursor-default"
                                         >
-                                            <div className="text-3xl mb-3 group-hover/item:scale-125 transition-transform duration-500">
+                                            <div className="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover/item:scale-125 transition-transform duration-500">
                                                 {skillIcons[skill] || 
                                                  skillIcons[skill.charAt(0).toUpperCase() + skill.slice(1).toLowerCase()] ||
                                                  skillIcons[skill.toUpperCase()] ||
                                                  skillIcons[skill.toLowerCase()] ||
                                                  <HiCommandLine className="text-accent/50" />}
                                             </div>
-                                            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center group-hover/item:text-main transition-colors">
+                                            <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide sm:tracking-widest text-center break-words leading-tight group-hover/item:text-main transition-colors">
                                                 {skill}
                                             </span>
                                         </div>

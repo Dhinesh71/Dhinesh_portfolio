@@ -31,7 +31,7 @@ const Modal = ({ isOpen, onClose, title, children, maxWidthClass = "max-w-5xl" }
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm p-4 sm:p-6 flex items-center justify-center"
+                    className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm p-3 sm:p-6 flex items-center justify-center"
                     onClick={onClose}
                 >
                     <motion.div
@@ -39,7 +39,7 @@ const Modal = ({ isOpen, onClose, title, children, maxWidthClass = "max-w-5xl" }
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.96, y: 12 }}
                         transition={{ type: "spring", stiffness: 280, damping: 26 }}
-                        className={`relative w-full ${maxWidthClass} max-h-[90vh] overflow-hidden rounded-2xl border border-slate-700/60 bg-primary shadow-2xl`}
+                        className={`relative w-full ${maxWidthClass} max-h-[92vh] sm:max-h-[90vh] overflow-hidden rounded-2xl border border-slate-700/60 bg-primary shadow-2xl`}
                         onClick={(event) => event.stopPropagation()}
                     >
                         <button
@@ -52,12 +52,12 @@ const Modal = ({ isOpen, onClose, title, children, maxWidthClass = "max-w-5xl" }
                         </button>
 
                         {title && (
-                            <div className="px-6 sm:px-8 py-5 border-b border-slate-700/50 bg-secondary/40">
-                                <h3 className="text-lg sm:text-xl font-bold text-main pr-12">{title}</h3>
+                            <div className="px-4 py-4 sm:px-8 sm:py-5 border-b border-slate-700/50 bg-secondary/40">
+                                <h3 className="pr-12 text-base font-bold leading-snug text-main sm:text-xl">{title}</h3>
                             </div>
                         )}
 
-                        <div className="p-5 sm:p-6 overflow-y-auto max-h-[calc(90vh-72px)]">
+                        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(92vh-68px)] sm:max-h-[calc(90vh-72px)]">
                             {children}
                         </div>
                     </motion.div>

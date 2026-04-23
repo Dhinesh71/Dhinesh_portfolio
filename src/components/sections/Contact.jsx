@@ -65,34 +65,34 @@ const Contact = () => {
 
     return (
         <SectionWrapper id="contact" className="bg-secondary/10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-main mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-main mb-10 sm:mb-16">
                 {contact.titlePrefix} <span className="text-accent">{contact.titleHighlight}</span>
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                <div className="space-y-8">
+            <div className="grid gap-8 md:grid-cols-2 md:gap-10 max-w-5xl mx-auto">
+                <div className="space-y-6 sm:space-y-8 text-center md:text-left">
                     <h3 className="text-2xl font-semibold text-main">{contact.introTitle}</h3>
                     <p className="text-slate-600 dark:text-slate-400">
                         {contact.introText}
                     </p>
 
                     <div className="space-y-4">
-                        <div className="flex items-center gap-4 text-slate-600 dark:text-slate-300">
-                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-accent">
+                        <div className="flex flex-col items-center gap-3 text-slate-600 dark:text-slate-300 sm:flex-row sm:gap-4 md:items-center">
+                            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-accent">
                                 <FaEnvelope />
                             </div>
-                            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                            <a href={`mailto:${contact.email}`} className="break-all hover:text-accent transition-colors">{contact.email}</a>
                         </div>
 
-                        <div className="flex items-center gap-4 text-slate-600 dark:text-slate-300">
-                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-accent">
+                        <div className="flex flex-col items-center gap-3 text-slate-600 dark:text-slate-300 sm:flex-row sm:gap-4 md:items-center">
+                            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-accent">
                                 <FaPhone />
                             </div>
-                            <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+                            <a href={`tel:${contact.phone}`} className="hover:text-accent transition-colors">{contact.phone}</a>
                         </div>
 
-                        <div className="flex items-center gap-4 text-slate-600 dark:text-slate-300">
-                            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-accent">
+                        <div className="flex flex-col items-center gap-3 text-slate-600 dark:text-slate-300 sm:flex-row sm:gap-4 md:items-center">
+                            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-accent">
                                 <FaMapMarkerAlt />
                             </div>
                             <span>{contact.address}</span>
@@ -103,9 +103,9 @@ const Contact = () => {
                 <form
                     ref={formRef}
                     onSubmit={handleSubmit}
-                    className="bg-secondary/30 p-8 rounded-2xl border border-slate-700 shadow-xl"
+                    className="bg-secondary/30 p-5 sm:p-8 rounded-2xl border border-slate-700 shadow-xl"
                 >
-                    <div className="space-y-6">
+                    <div className="space-y-5 sm:space-y-6">
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 {contact.labels.name}

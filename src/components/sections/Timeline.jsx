@@ -28,7 +28,7 @@ const escapeHtml = (value = "") =>
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#39;");
 
-const isCompactScreen = () => window.innerWidth < 767;
+const isCompactScreen = () => window.innerWidth < 1024;
 
 const addNodeRefsToItems = (timeline) =>
     timeline.map((node, index) => ({
@@ -272,6 +272,64 @@ const TimelinePreviewCard = ({ item, previewIndex, timelineContent, className = 
     );
 };
 
+const CompactTimeline = ({ items, timelineContent }) => (
+    <div className="mt-10 space-y-6 lg:hidden">
+        {items
+            .filter((item) => item.type === NODE_TYPES.CHECKPOINT)
+            .map((item, index) => {
+                if (!item.shouldDrawLine) {
+                    return (
+                        <div
+                            key={`${item.title}-${index}`}
+                            className="sticky top-16 z-20 border-l-2 border-accent bg-slate-950/85 px-4 py-3 backdrop-blur-md"
+                        >
+                            <p className="text-4xl font-black tracking-tight text-white">
+                                {item.title}
+                            </p>
+                        </div>
+                    );
+                }
+
+                const fallbackImage = createFallbackSlide(timelineContent, item);
+
+                return (
+                    <article
+                        key={`${item.title}-${item.slideImage || "generated"}-${index}`}
+                        className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 shadow-2xl"
+                    >
+                        <div className="p-4">
+                            {item.image && (
+                                <img
+                                    src={item.image}
+                                    alt=""
+                                    className="mb-3 h-9 max-w-[10rem] object-contain"
+                                    loading="lazy"
+                                    draggable={false}
+                                />
+                            )}
+                            <h3 className="text-xl font-bold leading-tight text-white">
+                                {item.title}
+                            </h3>
+                            {item.subtitle && (
+                                <p className="mt-3 text-sm leading-relaxed text-slate-300">
+                                    {item.subtitle}
+                                </p>
+                            )}
+                        </div>
+                        <img
+                            src={item.slideImage || fallbackImage}
+                            alt={item.title}
+                            className="aspect-video w-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            draggable={false}
+                        />
+                    </article>
+                );
+            })}
+    </div>
+);
+
 const Timeline = () => {
     const { content } = useContent();
     const timelineContent = content.timeline;
@@ -420,7 +478,7 @@ const Timeline = () => {
         <section
             id="timeline"
             ref={sectionRef}
-            className="relative min-h-screen overflow-hidden py-24 text-white"
+            className="relative min-h-screen overflow-hidden py-16 text-white sm:py-20 lg:py-24"
         >
             <div className="pointer-events-none absolute inset-0 opacity-90">
                 <div className="absolute inset-0 bg-slate-950/45 backdrop-blur-[2px]" />
@@ -431,18 +489,20 @@ const Timeline = () => {
 
             <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 sm:px-6 lg:px-8">
                 <div className="flex max-w-3xl flex-col">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent sm:tracking-[0.28em]">
                         {timelineContent.eyebrow}
                     </p>
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:mt-4 sm:text-5xl">
                         {timelineContent.title}
                     </h2>
-                    <p className="mt-4 text-lg leading-relaxed text-slate-300 sm:text-2xl">
+                    <p className="mt-4 text-base leading-relaxed text-slate-300 sm:text-2xl">
                         {timelineContent.subtitle}
                     </p>
                 </div>
 
-                <div className="mt-20 grid grid-cols-12 gap-6 xl:gap-10">
+                <CompactTimeline items={items} timelineContent={timelineContent} />
+
+                <div className="mt-20 hidden grid-cols-12 gap-6 lg:grid xl:gap-10">
                     <div
                         ref={svgContainerRef}
                         style={{ gridColumn: compactLayout ? "1 / -1" : "span 6 / span 6" }}
@@ -456,7 +516,7 @@ const Timeline = () => {
                     </div>
 
                     <div
-                        className="hidden md:block"
+                        className="hidden lg:block"
                         style={{
                             gridColumn: "span 6 / span 6",
                             minHeight: `${timelineVisualHeight}px`,

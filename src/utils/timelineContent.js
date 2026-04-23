@@ -56,11 +56,13 @@ export const createTimelineSlide = ({
             <text x="216" y="145" text-anchor="middle" fill="${escapeSvgValue(accent)}" font-size="20" font-family="Space Grotesk, Inter, sans-serif" font-weight="700" letter-spacing="4">
                 ${escapeSvgValue(eyebrow).toUpperCase()}
             </text>
-            <text x="124" y="262" fill="white" font-size="72" font-family="Space Grotesk, Inter, sans-serif" font-weight="700">
-                ${escapeSvgValue(title)}
-            </text>
-            <rect x="124" y="304" width="812" height="4" rx="2" fill="url(#timeline-accent)" />
-            <foreignObject x="124" y="344" width="968" height="196">
+            <foreignObject x="124" y="206" width="968" height="154">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Space Grotesk, Inter, sans-serif; color: white; font-size: 64px; line-height: 1.08; font-weight: 700; letter-spacing: 0.01em; overflow-wrap: break-word;">
+                    ${escapeSvgValue(title)}
+                </div>
+            </foreignObject>
+            <rect x="124" y="376" width="812" height="4" rx="2" fill="url(#timeline-accent)" />
+            <foreignObject x="124" y="416" width="968" height="150">
                 <div xmlns="http://www.w3.org/1999/xhtml" style="font-family: Space Grotesk, Inter, sans-serif; color: rgba(226, 232, 240, 0.88); font-size: 30px; line-height: 1.45; font-weight: 500; letter-spacing: 0.01em;">
                     ${escapeSvgValue(subtitle)}
                 </div>

@@ -27,51 +27,51 @@ const ProjectCard = ({ project, index, labels, registerCard }) => {
     return (
         <article
             ref={registerCard(index)}
-            className="project-card group perspective-1000 relative h-[21rem] w-[min(32rem,calc(100vw-2rem))] shrink-0 snap-start sm:w-[28rem] lg:w-[32rem]"
+            className="project-card group perspective-1000 relative mx-auto w-full max-w-[32rem] lg:mx-0 lg:h-[21rem] lg:w-[32rem] lg:shrink-0 lg:snap-start"
         >
             <div 
-                className="relative h-full w-full transition-transform duration-700 preserve-3d group-hover:rotate-y-180"
+                className="relative w-full transition-transform duration-700 lg:h-full lg:preserve-3d lg:group-hover:rotate-y-180"
             >
                 {/* Front Side: ONLY Image */}
-                <div className="absolute inset-0 backface-hidden rounded-[1.75rem] overflow-hidden border border-white/10 shadow-xl bg-slate-900">
+                <div className="relative overflow-hidden rounded-t-[1.5rem] border border-white/10 bg-slate-900 shadow-xl lg:absolute lg:inset-0 lg:rounded-[1.75rem] lg:backface-hidden">
                     <img
                         key={`${project.id}-${project.image}`}
                         src={project.image}
                         alt={project.title}
                         draggable={false}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105 sm:h-64 lg:h-full"
                     />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
                     
                     {/* Subtle Title Overlay on Front */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                        <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                        <h3 className="text-lg sm:text-xl font-bold text-white">{project.title}</h3>
                     </div>
                 </div>
 
                 {/* Back Side: Details & Links */}
                 <div 
-                    className="absolute inset-0 backface-hidden rotate-y-180 rounded-[1.75rem] border border-white/15 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-2xl"
+                    className="relative flex min-h-[18rem] flex-col justify-between overflow-hidden rounded-b-[1.5rem] border border-white/15 p-5 shadow-2xl sm:p-6 lg:absolute lg:inset-0 lg:min-h-0 lg:rotate-y-180 lg:rounded-[1.75rem] lg:p-8 lg:backface-hidden"
                     style={{ background: `linear-gradient(135deg, ${startColor} 0%, ${endColor} 100%)` }}
                 >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent_40%)] opacity-50" />
                     
                     <div className="relative z-10">
-                        <p className="text-[0.65rem] font-bold uppercase tracking-[0.4em] text-white/60">
+                        <p className="text-[0.6rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.28em] sm:tracking-[0.4em] text-white/60">
                             Project {String(index + 1).padStart(2, "0")}
                         </p>
                         
-                        <h3 className="mt-3 text-2xl font-bold leading-tight text-white line-clamp-1">
+                        <h3 className="mt-3 text-xl sm:text-2xl font-bold leading-tight text-white lg:line-clamp-1">
                             {project.title}
                         </h3>
 
                         <p
-                            className="mt-3 text-xs leading-relaxed text-white/85 sm:text-sm line-clamp-4"
+                            className="mt-3 text-xs leading-relaxed text-white/85 sm:text-sm lg:line-clamp-4"
                         >
                             {project.description}
                         </p>
 
-                        <div className="mt-5 flex flex-wrap gap-2">
+                        <div className="mt-4 sm:mt-5 flex flex-wrap gap-2">
                             {visibleTech.map((tag) => (
                                 <span
                                     key={`${project.id}-${tag}-chip`}
@@ -83,7 +83,7 @@ const ProjectCard = ({ project, index, labels, registerCard }) => {
                         </div>
                     </div>
 
-                    <div className="relative z-10 flex flex-wrap gap-3 pt-6">
+                    <div className="relative z-10 flex flex-wrap gap-3 pt-5 sm:pt-6">
                         {project.github && (
                             <a
                                 href={project.github}
@@ -243,18 +243,18 @@ const Projects = () => {
         <section
             id="projects"
             ref={sectionRef}
-            className="relative scroll-mt-0 overflow-hidden py-24 sm:py-28 lg:min-h-screen lg:py-20"
+            className="relative scroll-mt-0 overflow-hidden py-16 sm:py-20 lg:min-h-screen lg:py-20"
         >
             <div id="projects-anchor" className="absolute -top-16 left-0 w-px h-px pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.14),transparent_32%)]" />
 
-            <div className="relative z-10 flex w-full flex-col px-4 sm:px-6 lg:px-8">
+            <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-4 sm:px-6 lg:max-w-none lg:px-8">
                 <div className="projects-copy max-w-3xl">
-                    <p className="text-sm font-semibold uppercase tracking-[0.35em] text-accent/80">
+                    <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.28em] sm:tracking-[0.35em] text-accent/80">
                         {projects.titlePrefix}
                     </p>
 
-                    <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+                    <h2 className="mt-3 sm:mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
                         <span className="text-accent">{projects.titleHighlight}</span>
                     </h2>
 
@@ -263,11 +263,11 @@ const Projects = () => {
 
                 <div
                     ref={railViewportRef}
-                    className="project-rail mt-12 overflow-x-auto snap-x snap-mandatory pb-4"
+                    className="project-rail mt-8 overflow-visible pb-4 sm:mt-10 lg:mt-12 lg:overflow-x-auto lg:snap-x lg:snap-mandatory"
                 >
                     <div
                         ref={railTrackRef}
-                        className="flex w-max gap-6 pr-4 sm:gap-7 sm:pr-6 lg:gap-8 lg:pr-8"
+                        className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:flex lg:w-max lg:gap-8 lg:pr-8"
                     >
                         {projects.items.map((project, index) => (
                             <ProjectCard

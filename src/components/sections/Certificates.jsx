@@ -49,11 +49,11 @@ const Certificates = () => {
 
     return (
         <SectionWrapper id="certificates" className="bg-secondary/30">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-main mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-main mb-10 sm:mb-16">
                 {certificates.titlePrefix} <span className="text-accent">{certificates.titleHighlight}</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 mb-10 sm:mb-12">
                 <AnimatePresence mode="popLayout">
                     {visibleCertificates.map((certificate) => (
                         <Motion.div
@@ -63,23 +63,23 @@ const Certificates = () => {
                             exit={{ y: 50, opacity: 0 }}
                             transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
                             viewport={{ once: true, amount: 0.1 }}
-                            className="cert-card group relative z-10 bg-secondary/50 p-6 rounded-2xl border border-main/15 hover:border-accent/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)] hover:-translate-y-1 flex flex-col items-center text-center overflow-hidden h-full"
+                            className="cert-card group relative z-10 bg-secondary/50 p-5 sm:p-6 rounded-2xl border border-main/15 hover:border-accent/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.1)] hover:-translate-y-1 flex flex-col items-center text-center overflow-hidden h-full"
                         >
                             <div className="absolute -top-10 -right-10 w-24 h-24 bg-accent/5 rounded-full group-hover:bg-accent/10 transition-colors" />
 
-                            <div className="mb-4 flex w-full items-center justify-between gap-3">
-                                <div className="text-4xl text-accent group-hover:scale-110 transition-transform duration-300">
+                            <div className="mb-4 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
+                                <div className="text-3xl sm:text-4xl text-accent group-hover:scale-110 transition-transform duration-300">
                                     <HiOutlineBadgeCheck />
                                 </div>
 
                                 {certificate.priority && (
-                                    <span className={`rounded-full border px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] ${getPriorityClassName(certificate.priority)}`}>
+                                    <span className={`max-w-full rounded-full border px-3 py-1 text-center text-[0.6rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.12em] sm:tracking-[0.16em] ${getPriorityClassName(certificate.priority)}`}>
                                         {certificate.priority}
                                     </span>
                                 )}
                             </div>
 
-                            <h3 className="text-xl font-bold text-main mb-2 tracking-tight">
+                            <h3 className="text-lg sm:text-xl font-bold text-main mb-2 tracking-tight">
                                 {certificate.title}
                             </h3>
 
@@ -100,7 +100,7 @@ const Certificates = () => {
                             <button
                                 type="button"
                                 onClick={() => setSelectedCertificate(certificate)}
-                                className="mt-auto px-6 py-2 rounded-full border border-accent/20 bg-accent/10 text-accent text-sm font-semibold hover:bg-accent hover:text-onaccent transition-all duration-300"
+                                className="mt-5 w-full rounded-full border border-accent/20 bg-accent/10 px-5 py-2.5 text-sm font-semibold text-accent transition-all duration-300 hover:bg-accent hover:text-onaccent sm:w-auto sm:px-6 sm:py-2"
                             >
                                 {certificates.labels.viewButton}
                             </button>
@@ -114,7 +114,7 @@ const Certificates = () => {
                     <button
                         type="button"
                         onClick={handleLoadMore}
-                        className="px-8 py-3 rounded-full border-2 border-accent text-accent font-bold hover:bg-accent hover:text-onaccent transition-all duration-300 shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)] hover:shadow-[0_0_25px_rgba(var(--accent-rgb),0.4)] hover:-translate-y-1"
+                        className="w-full rounded-full border-2 border-accent px-6 py-3 font-bold text-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)] transition-all duration-300 hover:-translate-y-1 hover:bg-accent hover:text-onaccent hover:shadow-[0_0_25px_rgba(var(--accent-rgb),0.4)] sm:w-auto sm:px-8"
                     >
                         {certificates.loadMoreText}
                     </button>
@@ -154,11 +154,11 @@ const Certificates = () => {
 
                         <div className="rounded-xl border border-main/15 bg-black/20 overflow-hidden">
                             {selectedType === "image" && (
-                                <div className="flex items-center justify-center bg-primary min-h-[45vh] sm:min-h-[60vh]">
+                                <div className="flex items-center justify-center bg-primary min-h-[35vh] sm:min-h-[60vh]">
                                     <img
                                         src={selectedCertificate.link}
                                         alt={selectedCertificate.title}
-                                        className="w-full max-h-[75vh] object-contain"
+                                        className="w-full max-h-[70vh] object-contain sm:max-h-[75vh]"
                                     />
                                 </div>
                             )}

@@ -27,14 +27,14 @@ const About = () => {
 
     return (
         <SectionWrapper id="about" className="bg-secondary/30">
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-                <div className="space-y-6 text-section-content">
-                    <h2 className="text-3xl md:text-4xl font-bold text-main">
+            <div className="grid gap-10 md:grid-cols-2 md:items-center">
+                <div className="space-y-5 sm:space-y-6 text-section-content text-center md:text-left">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-main">
                         {about.titlePrefix} <span className="text-accent">{about.titleHighlight}</span>
                     </h2>
 
                     {about.paragraphs.map((paragraph, index) => (
-                        <p key={`${paragraph.slice(0, 20)}-${index}`} className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                        <p key={`${paragraph.slice(0, 20)}-${index}`} className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                             {paragraph}
                         </p>
                     ))}
@@ -43,7 +43,7 @@ const About = () => {
                 <div className="flex justify-center">
                     <div
                         ref={imageRef}
-                        className="relative w-72 h-72 md:w-96 md:h-96 group cursor-pointer"
+                        className="relative h-60 w-60 sm:h-72 sm:w-72 md:h-80 md:w-80 lg:h-96 lg:w-96 group cursor-pointer"
                     >
                         <div 
                             className="absolute -inset-[12px] rounded-full border-t-[6px] border-l-[6px] border-accent/90 animate-spin" 

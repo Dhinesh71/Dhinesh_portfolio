@@ -55,13 +55,13 @@ const Hero = () => {
     }, { scope: heroRef });
 
     return (
-        <section ref={heroRef} id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 pt-20">
-                <div ref={contentRef} className="space-y-10">
-                    <h1 className="text-5xl md:text-7xl font-bold text-main tracking-tight">
+        <section ref={heroRef} id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden py-20">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10 pt-10 sm:pt-16">
+                <div ref={contentRef} className="space-y-6 sm:space-y-8 lg:space-y-10">
+                    <h1 className="break-words text-4xl sm:text-5xl md:text-7xl font-bold text-main tracking-tight">
                         {hero.name}
                     </h1>
-                    <h2 className="text-3xl md:text-5xl font-bold text-main/70 min-h-[40px] md:min-h-[60px]">
+                    <h2 className="min-h-[72px] sm:min-h-[44px] md:min-h-[60px] text-2xl sm:text-3xl md:text-5xl font-bold text-main/70 leading-tight">
                         <TypeAnimation
                             sequence={[
                                 hero.role,
@@ -74,23 +74,23 @@ const Hero = () => {
                             wrapper="span"
                             speed={50}
                             repeat={Infinity}
-                            className="inline-block"
+                            className="inline-block max-w-full break-words"
                         />
                     </h2>
-                    <p className="text-main/75 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-main/75 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
                         {hero.subheading}
                     </p>
                 </div>
 
                 <div
                     ref={buttonsRef}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16"
+                    className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center justify-center gap-4 sm:gap-5 lg:gap-6 mt-10 sm:mt-14 lg:mt-16"
                 >
                     <Link
                         to={hero.primaryCtaTarget || "projects"}
                         smooth
                         duration={500}
-                        className="w-full sm:w-auto inline-block bg-accent text-onaccent font-bold px-10 py-4 rounded-full hover:bg-accent/90 transition-all shadow-lg hover:shadow-accent/50 cursor-pointer text-center"
+                        className="w-full sm:w-auto inline-block bg-accent text-onaccent font-bold px-6 sm:px-10 py-4 rounded-full hover:bg-accent/90 transition-all shadow-lg hover:shadow-accent/50 cursor-pointer text-center"
                     >
                         {hero.primaryCtaText}
                     </Link>
@@ -98,7 +98,7 @@ const Hero = () => {
                         to={hero.secondaryCtaTarget || "contact"}
                         smooth
                         duration={500}
-                        className="w-full sm:w-auto inline-block bg-transparent border-2 border-accent text-accent font-bold px-10 py-4 rounded-full hover:bg-accent hover:text-onaccent transition-all shadow-lg cursor-pointer text-center"
+                        className="w-full sm:w-auto inline-block bg-transparent border-2 border-accent text-accent font-bold px-6 sm:px-10 py-4 rounded-full hover:bg-accent hover:text-onaccent transition-all shadow-lg cursor-pointer text-center"
                     >
                         {hero.secondaryCtaText}
                     </Link>
@@ -106,14 +106,14 @@ const Hero = () => {
                         href={hero.resumeLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-10 py-4 rounded-full hover:from-cyan-400 hover:to-blue-400 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.8)] cursor-pointer text-center scale-100 hover:-translate-y-1 duration-300"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold px-6 sm:px-10 py-4 rounded-full hover:from-cyan-400 hover:to-blue-400 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.8)] cursor-pointer text-center scale-100 hover:-translate-y-1 duration-300"
                     >
                         <FaDownload className="text-xl animate-bounce" />
                         {hero.resumeCtaText}
                     </a>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-12 pb-10">
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-10 sm:mt-12 pb-4 sm:pb-10">
                     {hero.socialLinks.map((item, index) => {
                         const Icon = socialIconMap[item.icon] || socialIconMap.globe;
                         const hoverClass = socialHoverClassMap[item.icon] || "hover:text-accent";

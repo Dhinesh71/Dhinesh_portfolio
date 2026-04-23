@@ -27,10 +27,10 @@ const SectionWrapper = ({ id, children, className = "" }) => {
     }, { scope: containerRef });
 
     return (
-        <section id={id} className={`min-h-screen flex flex-col justify-center py-20 w-full overflow-hidden ${className}`}>
+        <section id={id} className={`min-h-screen flex flex-col justify-center py-16 sm:py-20 w-full overflow-hidden ${className}`}>
             <div
                 ref={containerRef}
-                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+                className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
             >
                 {children}
             </div>
