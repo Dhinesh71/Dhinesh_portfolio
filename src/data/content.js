@@ -1,4 +1,10 @@
-import { buildTimelineItemsFromSections } from "../utils/timelineContent";
+import {
+    BRANCH,
+    createTimelineBadge,
+    createTimelineSlide,
+    ITEM_SIZE,
+    NODE_TYPES,
+} from "../utils/timelineContent";
 
 const defaultNavigationLinks = [
     { name: "Home", to: "hero", enabled: true },
@@ -125,15 +131,179 @@ const defaultEducationContent = {
     ],
 };
 
+const timelineCategoryStyles = {
+    Achievement: {
+        accent: "#f59e0b",
+        accentSoft: "rgba(245, 158, 11, 0.18)",
+        background: "#111827",
+        backgroundEnd: "#312e81",
+    },
+    Hackathon: {
+        accent: "#22d3ee",
+        accentSoft: "rgba(34, 211, 238, 0.18)",
+        background: "#0f172a",
+        backgroundEnd: "#164e63",
+    },
+    Leadership: {
+        accent: "#a78bfa",
+        accentSoft: "rgba(167, 139, 250, 0.18)",
+        background: "#111827",
+        backgroundEnd: "#312e81",
+    },
+    Participation: {
+        accent: "#38bdf8",
+        accentSoft: "rgba(56, 189, 248, 0.18)",
+        background: "#0f172a",
+        backgroundEnd: "#1e293b",
+    },
+    Education: {
+        accent: "#38bdf8",
+        accentSoft: "rgba(56, 189, 248, 0.18)",
+        background: "#0f172a",
+        backgroundEnd: "#1e293b",
+    },
+};
+
+const timelineYear = (year) => ({
+    type: NODE_TYPES.CHECKPOINT,
+    title: String(year),
+    size: ITEM_SIZE.LARGE,
+    shouldDrawLine: false,
+    alignment: BRANCH.LEFT,
+});
+
+const timelineImage = (fileName) =>
+    `/optimized/timeline_images/${fileName.replace(/\.(png|jpe?g)$/i, ".webp")}`;
+
+const timelineMilestone = ({
+    category,
+    title,
+    issuer,
+    description,
+    image,
+}) => {
+    const style = timelineCategoryStyles[category] || timelineCategoryStyles.Achievement;
+    const subtitle = [issuer, description].filter(Boolean).join(" - ");
+
+    return {
+        type: NODE_TYPES.CHECKPOINT,
+        title,
+        subtitle,
+        size: ITEM_SIZE.SMALL,
+        image: createTimelineBadge({
+            label: category,
+            accent: style.accent,
+            background: style.background,
+        }),
+        slideImage: image
+            ? timelineImage(image)
+            : createTimelineSlide({
+                eyebrow: category,
+                title,
+                subtitle,
+                accent: style.accent,
+                accentSoft: style.accentSoft,
+                backgroundStart: style.background,
+                backgroundEnd: style.backgroundEnd,
+            }),
+        shouldDrawLine: true,
+        alignment: BRANCH.LEFT,
+    };
+};
+
 const defaultTimelineContent = {
     enabled: true,
     eyebrow: "Milestones",
     title: "Timeline",
-    subtitle: "A quick recap of hackathons, academic steps, and the moments that shaped this portfolio.",
-    items: buildTimelineItemsFromSections({
-        hackathons: defaultHackathonsContent,
-        education: defaultEducationContent,
-    }),
+    subtitle: "Key achievements, hackathons, leadership moments, and education milestones.",
+    items: [
+        timelineYear("2026"),
+        timelineMilestone({
+            category: "Achievement",
+            title: "CMTI Design & Innovation Clinic Selection",
+            issuer: "Central Manufacturing Technology Institute (CMTI), Bengaluru",
+            description: "Selected and presented SEED AI - Smart Agricultural Decision System at national-level innovation clinic.",
+            image: "cmti_design_innovation.jpeg",
+        }),
+        timelineMilestone({
+            category: "Hackathon",
+            title: "AI Nexus Hackathon - First Prize",
+            issuer: "Cogent AI (WTVDC)",
+            description: "Secured First Prize for building an AI-powered system with strong technical execution and innovation.",
+            image: "ai_nexus_first_prize.jpeg",
+        }),
+        timelineMilestone({
+            category: "Hackathon",
+            title: "GOJAN Hackfest - 1st Runner Up",
+            issuer: "Gojan School of Business and Technology",
+            description: "Achieved 1st Runner Up in 24-hour national-level hackathon for problem-solving and rapid prototyping.",
+            image: "gojan_hackfest_runnerup.jpeg",
+        }),
+        timelineMilestone({
+            category: "Achievement",
+            title: "Jeppeiar Hackathon - Best Innovation Award",
+            issuer: "Jeppiaar Institute of Technology",
+            description: "Awarded Best Innovation for building a unique and impactful technical solution during hackathon.",
+            image: "jeppeiar_best_innovation.jpeg",
+        }),
+        timelineMilestone({
+            category: "Hackathon",
+            title: "Garuda'26 Makeathon - 3rd Prize",
+            issuer: "Nandha Engineering College",
+            description: "Secured 3rd Prize in a 24-hour national-level makeathon by developing a functional solution under time constraints.",
+            image: "garuda_makeathon_third_prize.jpeg",
+        }),
+        timelineMilestone({
+            category: "Leadership",
+            title: "Delivered Internship Training - Surya Engineering College",
+            issuer: "Surya Engineering College",
+            description: "Conducted internship training for 1st and 2nd year ECE students, mentoring them in real-world development and practical skills.",
+            image: "surya_training.jpeg",
+        }),
+        timelineMilestone({
+            category: "Participation",
+            title: "Creative Genesis 2026",
+            issuer: "KGiSL Educational Institutions",
+            description: "Participated in 30-hour national-level innovation event focusing on technical problem-solving and teamwork.",
+            image: "kgisl_creative_genesis.jpeg",
+        }),
+        timelineYear("2025"),
+        timelineMilestone({
+            category: "Achievement",
+            title: "1st Prize - Idea Arangam (VIYUGAM 2K25)",
+            issuer: "PPG Institute of Technology",
+            description: "Secured 1st place in Idea Arangam by presenting innovative solution at national-level symposium.",
+            image: "ppg_viyugam_idea_arangam_1st.jpeg",
+        }),
+        timelineMilestone({
+            category: "Achievement",
+            title: "Paper Presentation Winner - Bus Tracking System",
+            issuer: "Nandha College of Technology (IGNITRA 25)",
+            description: "Won top position for presenting real-time bus tracking system architecture and implementation.",
+            image: "nandha_bus_tracking_paper.jpeg",
+        }),
+        timelineMilestone({
+            category: "Leadership",
+            title: "Delivered Internship Training - MPNMJ Engineering College",
+            issuer: "M.P. Nachimuthu M. Jaganathan Engineering College",
+            description: "Provided internship training to 2nd year students (Dec 2025), focusing on full-stack development and hands-on project building.",
+            image: "mpnmj_training.jpeg",
+        }),
+        timelineMilestone({
+            category: "Leadership",
+            title: "Motivational Speaker - Railway Colony Higher Secondary School",
+            issuer: "Railway Colony Higher Secondary School",
+            description: "Delivered motivational session to junior students, sharing career guidance and technology awareness.",
+            image: "school_motivation.jpeg",
+        }),
+        timelineYear("2023-2027"),
+        timelineMilestone({
+            category: "Education",
+            title: "B.E. Electrical, Electronics and Communication Engineering",
+            issuer: "M.P. Nachimuthu M. Jaganathan Engineering College",
+            description: "Pursuing engineering with strong focus on software development, AI systems, and real-world project building.",
+        }),
+    ],
 };
 
 export const defaultSiteContent = {
